@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+    <title>New Wallpapers</title>
+</head>
+
+<body>
+    <!-- open close button -->
+    <div class="sidebar_button">
+        <span class="toggle_line line_one"></span>
+        <span class="toggle_line line_two"></span>
+        <span class="toggle_line line_three"></span>
+    </div>
+    <!-- sidebar -->
+    <div class="content_sidebar">
+        <!-- heading -->
+        <p class="content_head">
+            New Wallpapers
+        </p>
+        <!-- search bar -->
+        <div class="search_bar">
+            <input type="search" name="keyword_query" id="keyword_search" class="wallpaper_keyword_bar" placeholder="type and press enter...">
+            <p class="search_error">Please enter a word.</p>
+        </div>
+        <!-- image cards -->
+        <div class="category_cards"></div>
+        <div class="category_cards1"></div>
+        <div class="sidebar_loader">
+            <span class="loader_circle circle_one"></span>
+            <span class="loader_circle circle_two"></span>
+            <span class="loader_circle circle_three"></span>
+        </div>
+    </div>
+    <div class="preview_modal_wrap">
+        <div class="preview_overlay"></div>
+        <div class="preview_modal">
+            <p class="preview_loading_copy">loading...</p>
+            <img src="" alt="" class="preview_image">
+            <!-- author details -->
+            <div class="preview_photo_details">
+                <div class="preview_owner_image">
+                    <img src="" alt="" class="preview_profile">
+                </div>
+                <div class="preview_owner_name">
+                    <p class="preview_photo_owner">
+                        Photo by <span class="preview_author_name"></span>
+                    </p>
+                    <p class="preview_credit_owner">on Unsplash</p>
+                </div>
+            </div>
+            <button data-url="" class="image_btn download_btn preview_dwnld_btn" target="_blank">&darr; download</button>
+            <p class="preview_close_btn">&Cross;</p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
