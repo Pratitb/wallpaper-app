@@ -3,9 +3,9 @@ const bodyElements = {
   contentSideBar: document.querySelector(".content_sidebar"),
   searchBar: document.querySelector("#keyword_search"),
   searchError: document.querySelector(".search_error"),
-  categoryCards: document.querySelector(".category_cards"),
-  categoryCards1: document.querySelector(".category_cards1"),
-  categoryCard1: document.querySelectorAll(".category_cards1 .category_card"),
+  categoryCards: document.querySelector("#search_image_box"),
+  categoryCards1: document.querySelector("#category_cards"),
+  category_image_cards: document.querySelector('#category_image_cards'),
   previewModalWrap: document.querySelector('.preview_modal_wrap'),
   previewModal: document.querySelector('.preview_modal'),
   previewImage: document.querySelector('.preview_image'),
@@ -19,17 +19,17 @@ const bodyElements = {
 };
 
 // event listeners
-window.addEventListener("DOMContentLoaded", function () {
-  clearInput()
-  getCategories()
-  renderCategories()
-});
 window.addEventListener("scroll", scrollFromTop)
 bodyElements.sideBarBtn.addEventListener("click", changeToggleLine);
 bodyElements.searchBar.addEventListener("keyup", function (button) {
   checkKeyPress(button);
 });
 bodyElements.closeModal.addEventListener("click", closePreviewModal)
+window.addEventListener("DOMContentLoaded", function () {
+  clearInput()
+  // getCategories()
+  renderCategories()
+});
 
 
 function changeToggleLine() {
@@ -59,6 +59,8 @@ function checkEmpty() {
       bodyElements.searchError.classList.remove("show");
     }
 }
+
+// search
 async function getQueryWallpapers() {
   let searchVal = bodyElements.searchBar.value;
   console.log(searchVal)
@@ -204,46 +206,80 @@ async function getCategories(){
         console.log(error);
       }
 }
-async function renderCategories(){
-    let categories = await getCategories()
-    console.log(categories)
-    appendCategories(categories)
+function createcategoryCard(category){
+  let categoryCard = `
+  <div class="category_card" data-id="${category.id}">
+      <div class="category_overlay"></div>
+      <img src="${category.cover_photo.urls.regular}" alt="" class="category_cover">
+      <p class="category_name">${category.title}</p>
+  </div>
+  `
+  return categoryCard
 }
 function appendCategories(categories){
-    let categoriesBox = ""
-    categories.forEach((category) => {
-        let finalCategorycard = createcategoryCard(category)
-        categoriesBox += finalCategorycard
-    })
-    bodyElements.categoryCards1.innerHTML = categoriesBox
-    console.log(bodyElements.categoryCards1.children);
-}
-function createcategoryCard(category){
-    let categoryCard = `
-    <div class="category_card" data-id="${category.id}">
-        <div class="category_overlay"></div>
-        <img src="${category.cover_photo.urls.regular}" alt="" class="category_cover">
-        <p class="category_name">${category.title}</p>
-    </div>
-    `
-    return categoryCard
+  let categoriesBox = ""
+  categories.forEach((category) => {
+      let finalCategorycard = createcategoryCard(category)
+      categoriesBox += finalCategorycard
+  })
+  bodyElements.categoryCards1.innerHTML = categoriesBox
+  // console.log(bodyElements.categoryCards1.children);
 }
 function categoryCardClick(){
-    bodyElements.categoryCard1.forEach((category1) => {
+  let categoryCard1 = document.querySelectorAll(".category_cards1 .category_card")
+  console.log(categoryCard1, 'all new category cards');
+    categoryCard1.forEach((category1) => {
         category1.addEventListener('click', function(){
             getCategoryId(category1)
+            renderCategoryImages()
         })
     })
 }
 function getCategoryId(category1){
-    let categoryId = category1.dataset.id
-    console.log(categoryId)
+  let categoryId = category1.dataset.id
+  console.log(categoryId)
 }
+async function renderCategories(){
+    let categories = await getCategories()
+    console.log(categories)
+    appendCategories(categories)
+    categoryCardClick()
+}
+
+// category images
 async function getCategoryImages(){
     try{
-        let categoryImagesResponse = await fetch(`${bodyElements.topicsApiUrl}?page=1&`)
+        let categoryImagesResponse = await fetch(`${bodyElements.topicsApiUrl}3bnm95isIxE/photos?page=1&client_id=${bodyElements.clientId}`)
+        let categoryImageJson = await categoryImagesResponse.json()
+        // console.log(categoryJson);
+        return categoryImageJson
     }
     catch(error){
         console.log(error);
     }
+}
+function createCategoryImageCard(categoryImage){
+  let categoryImageCard = `
+  <div class="category_image_card">
+    <img src="" alt="">
+    <div class="category_image_details">
+      <p class="category_image_name"></p>
+      <p class="owner_name"></p>
+    </div>
+  </div>
+  `
+  return categoryImageCard
+}
+function appendCategoryImages(categoryImages){
+  let categoryImagesBox = ""
+  categoryImages.forEach((categoryImage) => {
+    console.log(categoryImage);
+    let finalCategoryImage = createCategoryImageCard(categoryImage)
+    categoryImagesBox+= finalCategoryImage
+  })
+  bodyElements.category_image_cards.innerHTML = categoryImagesBox
+}
+async function renderCategoryImages(){
+  let categoryImages = await getCategoryImages()
+  console.log(categoryImages)
 }

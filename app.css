@@ -383,6 +383,10 @@ body{
     cursor: pointer;
     width: 185px;
     max-height: var(--cardImgHeight1);
+    transition: 0.3s all;
+}
+.category_card:hover{
+    transform: scale(1.05);
 }
 .category_card *{
     user-select: none;
@@ -394,6 +398,7 @@ position: absolute;
 top: 0;
 height: 100%;
 width: 100%;
+border-radius: var(--image-radius);
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 100%), #d3d3d300 50% / cover no-repeat;
 pointer-events: none;
 
@@ -415,4 +420,7 @@ pointer-events: none;
     z-index: 1;
     text-align: center;
     color: #FFFFFF;
+}
+.category_image_card{
+    position: relative;
 }
