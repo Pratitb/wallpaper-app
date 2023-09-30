@@ -373,12 +373,14 @@ body{
     transform: scale(1.2);
     /* background-color: rgba(255, 255, 255, 0.8); */
 }
+
+/* categories */
 .category_cards1{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
-.category_card{
+.category_card, .category_image_card{
     position: relative;
     cursor: pointer;
     width: 185px;
@@ -420,6 +422,11 @@ pointer-events: none;
     z-index: 1;
     text-align: center;
     color: #FFFFFF;
+}
+
+/* category image cards */
+.category_images_cards{
+    display: flex;
 }
 .category_image_card{
     position: relative;

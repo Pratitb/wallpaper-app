@@ -261,10 +261,11 @@ async function getCategoryImages(){
 function createCategoryImageCard(categoryImage){
   let categoryImageCard = `
   <div class="category_image_card">
-    <img src="" alt="">
+    <img src="${categoryImage.urls.small}" alt="" clas
+    category_image>
     <div class="category_image_details">
-      <p class="category_image_name"></p>
-      <p class="owner_name"></p>
+      <p class="category_image_name">Photo by ${categoryImage.user.first_name}</p>
+      <p class="owner_name">on Unsplash</p>
     </div>
   </div>
   `
@@ -278,8 +279,10 @@ function appendCategoryImages(categoryImages){
     categoryImagesBox+= finalCategoryImage
   })
   bodyElements.category_image_cards.innerHTML = categoryImagesBox
+  console.log(bodyElements.category_image_cards);
 }
 async function renderCategoryImages(){
   let categoryImages = await getCategoryImages()
   console.log(categoryImages)
+  appendCategoryImages(categoryImages)
 }
