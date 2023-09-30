@@ -249,7 +249,7 @@ async function renderCategories(){
 // category images
 async function getCategoryImages(){
     try{
-        let categoryImagesResponse = await fetch(`${bodyElements.topicsApiUrl}3bnm95isIxE/photos?page=1&client_id=${bodyElements.clientId}`)
+        let categoryImagesResponse = await fetch(`${bodyElements.topicsApiUrl}3bnm95isIxE/photos?page=1&per_page=20&client_id=${bodyElements.clientId}`)
         let categoryImageJson = await categoryImagesResponse.json()
         // console.log(categoryJson);
         return categoryImageJson
