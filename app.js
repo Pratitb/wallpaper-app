@@ -3,9 +3,10 @@ const bodyElements = {
   contentSideBar: document.querySelector(".content_sidebar"),
   searchBar: document.querySelector("#keyword_search"),
   searchError: document.querySelector(".search_error"),
-  categoryCards: document.querySelector("#search_image_box"),
+  goBackBtn: document.querySelector('#go_back_btn'),
+  categoryCards: document.querySelector("#query_image_cards"),
   categoryCards1: document.querySelector("#category_cards"),
-  category_image_cards: document.querySelector('#category_image_cards'),
+  category_images_cards: document.querySelector('#category_images_cards'),
   previewModalWrap: document.querySelector('.preview_modal_wrap'),
   previewModal: document.querySelector('.preview_modal'),
   previewImage: document.querySelector('.preview_image'),
@@ -21,14 +22,15 @@ const bodyElements = {
 // event listeners
 window.addEventListener("scroll", scrollFromTop)
 bodyElements.sideBarBtn.addEventListener("click", changeToggleLine);
-bodyElements.searchBar.addEventListener("keyup", function (button) {
-  checkKeyPress(button);
-});
 bodyElements.closeModal.addEventListener("click", closePreviewModal)
+bodyElements.goBackBtn.addEventListener('click', changeScreen)
 window.addEventListener("DOMContentLoaded", function () {
   clearInput()
   // getCategories()
   renderCategories()
+});
+bodyElements.searchBar.addEventListener("keyup", function (button) {
+  checkKeyPress(button);
 });
 
 
@@ -58,6 +60,22 @@ function checkEmpty() {
     } else {
       bodyElements.searchError.classList.remove("show");
     }
+}
+function showBackBtn(){
+  bodyElements.goBackBtn.classList.add('visible', 'h_auto')
+}
+function changeScreen(){
+  categoryImageToCategory()
+}
+
+// check screens
+function categoryImageToCategory(){
+  if(bodyElements.category_images_cards.classList.contains('dflex')){
+    bodyElements.category_images_cards.classList.remove('dflex')
+    bodyElements.category_images_cards.innerHTML = ''
+    bodyElements.categoryCards1.classList.add('dflex')
+    bodyElements.goBackBtn.classList.remove('visible', 'h_auto')
+  }
 }
 
 // search
@@ -184,9 +202,9 @@ function scrollFromTop(){
     let scrollFromTop = Math.round(window.scrollY)
     let scrollHeight = document.documentElement.scrollHeight - 100
     let clientHeight = document.documentElement.clientHeight
-    console.log(clientHeight, 'viewport height')
-    console.log(scrollHeight, 'client height');
-    console.log(Math.floor(scrollFromTop), 'from top')
+    // console.log(clientHeight, 'viewport height')
+    // console.log(scrollHeight, 'client height');
+    // console.log(Math.floor(scrollFromTop), 'from top')
     if(scrollFromTop + clientHeight == scrollHeight){
         bodyElements.sidebarLoader.style.display = 'flex';
     }
@@ -226,30 +244,36 @@ function appendCategories(categories){
   // console.log(bodyElements.categoryCards1.children);
 }
 function categoryCardClick(){
-  let categoryCard1 = document.querySelectorAll(".category_cards1 .category_card")
-  console.log(categoryCard1, 'all new category cards');
+  let categoryCard1 = document.querySelectorAll(".category_cards .category_card")
+  // console.log(categoryCard1, 'all new category cards');
     categoryCard1.forEach((category1) => {
         category1.addEventListener('click', function(){
-            getCategoryId(category1)
-            renderCategoryImages()
+          console.log(category1);
+          showBackBtn()
+          getCategoryId(category1)
+          renderCategoryImages(category1)
         })
     })
 }
 function getCategoryId(category1){
+  console.log(category1);
   let categoryId = category1.dataset.id
   console.log(categoryId)
+  return categoryId
 }
 async function renderCategories(){
     let categories = await getCategories()
-    console.log(categories)
+    // console.log(categories)
     appendCategories(categories)
     categoryCardClick()
 }
 
 // category images
-async function getCategoryImages(){
+async function getCategoryImages(category1){
+  let clickedCategoryID = getCategoryId(category1)
+  console.log(clickedCategoryID);
     try{
-        let categoryImagesResponse = await fetch(`${bodyElements.topicsApiUrl}3bnm95isIxE/photos?page=1&per_page=20&client_id=${bodyElements.clientId}`)
+        let categoryImagesResponse = await fetch(`${bodyElements.topicsApiUrl}${clickedCategoryID}/photos?page=1&per_page=20&client_id=${bodyElements.clientId}`)
         let categoryImageJson = await categoryImagesResponse.json()
         // console.log(categoryJson);
         return categoryImageJson
@@ -261,10 +285,9 @@ async function getCategoryImages(){
 function createCategoryImageCard(categoryImage){
   let categoryImageCard = `
   <div class="category_image_card">
-    <img src="${categoryImage.urls.small}" alt="" clas
-    category_image>
+    <img src="${categoryImage.urls.small}" alt="" class="category_image">
     <div class="category_image_details">
-      <p class="category_image_name">Photo by ${categoryImage.user.first_name}</p>
+      <p class="category_image_name">Photo by <span class="photo_owner_name">${categoryImage.user.first_name}</span></p>
       <p class="owner_name">on Unsplash</p>
     </div>
   </div>
@@ -273,16 +296,21 @@ function createCategoryImageCard(categoryImage){
 }
 function appendCategoryImages(categoryImages){
   let categoryImagesBox = ""
+  // console.log(categoryImages);
   categoryImages.forEach((categoryImage) => {
     console.log(categoryImage);
     let finalCategoryImage = createCategoryImageCard(categoryImage)
     categoryImagesBox+= finalCategoryImage
   })
-  bodyElements.category_image_cards.innerHTML = categoryImagesBox
-  console.log(bodyElements.category_image_cards);
+  bodyElements.category_images_cards.innerHTML = categoryImagesBox
+  if(bodyElements.category_images_cards.innerHTML !== ''){
+    bodyElements.categoryCards1.classList.remove('dflex')
+    bodyElements.category_images_cards.classList.add('dflex')
+  }
+  console.log(bodyElements.category_images_cards);
 }
-async function renderCategoryImages(){
-  let categoryImages = await getCategoryImages()
-  console.log(categoryImages)
+async function renderCategoryImages(category1){
+  let categoryImages = await getCategoryImages(category1)
+  // console.log(categoryImages)
   appendCategoryImages(categoryImages)
 }

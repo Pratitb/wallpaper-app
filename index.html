@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <!-- open close button -->
+    <!-- sidebar button -->
     <div class="sidebar_button">
         <span class="toggle_line line_one"></span>
         <span class="toggle_line line_two"></span>
@@ -21,7 +21,6 @@
     </div>
     <!-- sidebar -->
     <div class="content_sidebar">
-        <!-- heading -->
         <p class="content_head">
             New Wallpapers
         </p>
@@ -30,24 +29,29 @@
             <input type="search" name="keyword_query" id="keyword_search" class="wallpaper_keyword_bar" placeholder="type and press enter...">
             <p class="search_error">Please enter a word.</p>
         </div>
-        <!-- image cards -->
-        <div class="category_cards" id="search_image_box"></div>
-        <div class="category_cards1" id="category_cards"></div>
-        <div class="category_images_cards" id="category_image_cards">
-                        
+        <!-- back button -->
+        <div class="go_back_btn" id="go_back_btn">
+            <p class="go_back">&leftarrow;&nbsp;back</p>
         </div>
+        <!-- image cards -->
+        <div class="query_image_cards" id="query_image_cards"></div>
+        <div class="category_cards dflex" id="category_cards"></div>
+        <div class="category_images_cards" id="category_images_cards">           
+        </div>
+        <!-- sidebar loader -->
         <div class="sidebar_loader">
             <span class="loader_circle circle_one"></span>
             <span class="loader_circle circle_two"></span>
             <span class="loader_circle circle_three"></span>
         </div>
     </div>
+    <!-- preview box -->
     <div class="preview_modal_wrap">
         <div class="preview_overlay"></div>
         <div class="preview_modal">
             <p class="preview_loading_copy">loading...</p>
             <img src="" alt="" class="preview_image">
-            <!-- author details -->
+            <!-- preview author details -->
             <div class="preview_photo_details">
                 <div class="preview_owner_image">
                     <img src="" alt="" class="preview_profile">

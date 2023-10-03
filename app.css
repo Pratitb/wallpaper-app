@@ -17,6 +17,29 @@ body{
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
 }
+
+/* animations */
+@keyframes fade_in {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes jump {
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+/* sidebar button */
 .sidebar_button{
     position: absolute;
     top: 20px;
@@ -32,20 +55,6 @@ body{
     margin: 20px 0 0 0;
     z-index: 1;
 }
-.toggle_line{
-    width: 30px;
-    height: 2px;
-    border-radius: 5px;
-    background-color: #979393;
-}
-.line_one, .line_two, .line_three{
-    transition: var(--transitionTime);
-    transform: rotate(0deg);
-}/* 
-.line_two{
-
-    transform: translateX(0);
-} */
 .sidebar_button.active span{
     transition: var(--transitionTime);
     transform-origin: 0 0;
@@ -60,6 +69,18 @@ body{
 .sidebar_button.active .line_three{
     transform: rotate(-46deg) translate(-8px, 8px);
 }
+.toggle_line{
+    width: 30px;
+    height: 2px;
+    border-radius: 5px;
+    background-color: #979393;
+}
+.line_one, .line_two, .line_three{
+    transition: var(--transitionTime);
+    transform: rotate(0deg);
+}
+
+/* sidebar elements */
 .content_sidebar{
     position: absolute;
     transition: 0.5s linear all;
@@ -73,9 +94,29 @@ body{
     font-weight: 700;
     margin: 60px 0 10px;
 }
+.content_sidebar.active{
+    right: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.content_sidebar.active .content_head{
+    animation: fade_in 1.5s linear 1;
+}
+.content_sidebar.active .query_image_card{
+    animation: fade_in 1.5s linear 1;
+}
+
+/* searchbar */
 .search_bar{
     margin: 0 0 10px;
 }
+.search_error{
+    visibility: hidden;
+    font-size: 12px;
+    margin: 5px 0 0 5px;
+    color: #F44336;
+}
+
+/* input */
 .wallpaper_keyword_bar{
     width: 100%;
     height: 35px;
@@ -91,32 +132,32 @@ body{
     outline: none;
     border: 1px solid #9E9E9E;
 }
-.search_error{
+
+/* back button */
+.go_back_btn{
     visibility: hidden;
+    display: inline-block;
+    height: 0;
+    width: auto;
+    cursor: pointer;
+    color: #212121;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 0 10px;
+    border: 1px solid;
+    transition: 0.3s all;
+    background-color: #FFFFFF;
+}
+.go_back_btn:hover{
+    background-color: #212121;
+    color: #FFFFFF;
+}
+.go_back{
     font-size: 12px;
-    margin: 5px 0 0 5px;
-    color: #F44336;
-}
-.show{
-    visibility: visible;
-}
-.content_sidebar.active{
-    right: 0;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-.content_sidebar.active .content_head{
-    animation: fade_in 1.5s linear 1;
 }
 
-@keyframes fade_in {
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
-}
-.category_cards{
+/* query image search */
+.query_image_cards{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -135,8 +176,8 @@ body{
 .query_image_card:hover .photo_details{
     bottom: -40px;
 }
-.content_sidebar.active .query_image_card{
-    animation: fade_in 1.5s linear 1;
+.query_image_card:hover .query_image{
+    filter: blur(4px);
 }
 .query_image{
     font-weight: 500;
@@ -147,9 +188,8 @@ body{
     object-fit: cover;
     transition: var(--transitionTime);
 }
-.query_image_card:hover .query_image{
-    filter: blur(4px);
-}
+
+/* image details */
 .photo_details{
     position: absolute;
     display: flex;
@@ -178,15 +218,6 @@ body{
 .author_profile{
     border-radius: 50%;
 }
-.image-overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--image-radius);
-    background-color: rgba(0, 0, 0, 0.3);
-}
 .likes_number{
     pointer-events: none;
     display: flex;
@@ -196,6 +227,19 @@ body{
     right: 15px;
     color: #FFFFFF;
 }
+
+/* image overlay */
+.image-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--image-radius);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* image preview download buttons */
 .image_preview_download{
     width: 100%;
     max-width: 300px;
@@ -209,38 +253,6 @@ body{
 }
 .query_image_card:hover .image_preview_download{
     bottom: 15px;
-}
-.sidebar_loader{
-    display: none;
-    justify-content: center;
-    gap: 0 5px;
-    margin: 40px 0;
-}
-.loader_circle{
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #000000;
-}
-.circle_one{
-    animation: jump var(--loaderAnimation) linear infinite;
-}
-.circle_two{
-    animation: jump var(--loaderAnimation) linear 0.2s infinite;
-}
-.circle_three{
-    animation: jump var(--loaderAnimation) linear 0.4s infinite;
-}
-@keyframes jump {
-    0%{
-        transform: translateY(0);
-    }
-    50%{
-        transform: translateY(-10px);
-    }
-    100%{
-        transform: translateY(0);
-    }
 }
 .image_btn{
     display: flex;
@@ -273,6 +285,31 @@ body{
 .download_btn:hover{
     background-color: #377E39;
 }
+
+/* on scroll loader */
+.sidebar_loader{
+    display: none;
+    justify-content: center;
+    gap: 0 5px;
+    margin: 40px 0;
+}
+.loader_circle{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #000000;
+}
+.circle_one{
+    animation: jump var(--loaderAnimation) linear infinite;
+}
+.circle_two{
+    animation: jump var(--loaderAnimation) linear 0.2s infinite;
+}
+.circle_three{
+    animation: jump var(--loaderAnimation) linear 0.4s infinite;
+}
+
+
 .preview_modal_wrap{
     display: none;
     position: fixed;
@@ -375,8 +412,8 @@ body{
 }
 
 /* categories */
-.category_cards1{
-    display: flex;
+.category_cards{
+    display: none;
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -405,7 +442,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 10
 pointer-events: none;
 
 }
-.category_cover{
+.category_cover, .category_image{
     object-fit: cover;
     object-position: center;
     width: 100%;
@@ -426,8 +463,37 @@ pointer-events: none;
 
 /* category image cards */
 .category_images_cards{
-    display: flex;
+    display: none;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 .category_image_card{
     position: relative;
+}
+.category_image_details{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #FFFFFF;
+}
+.category_image_name, .owner_name{
+    font-size: 11px;
+}
+.photo_owner_name{
+    font-weight: 700;
+}
+
+
+/* js classes */
+.show{
+    visibility: visible;
+}
+.dflex{
+    display: flex !important;
+}
+.visible{
+    visibility: visible;
+}
+.h_auto{
+    height: auto;
 }
